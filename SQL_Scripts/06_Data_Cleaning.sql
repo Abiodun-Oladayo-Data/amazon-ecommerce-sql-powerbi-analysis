@@ -225,6 +225,30 @@ SELECT
     SUM(ship_country = '') AS blank_ship_country
 FROM clean_amazon_sales;
 
+-- Standardize Category Names
+SET SQL_SAFE_UPDATES = 0;
+UPDATE clean_amazon_sales
+SET category = CASE
+    WHEN LOWER(category) = 'set' THEN 'SET'
+    WHEN LOWER(category) = 'kurta' THEN 'KURTA'
+    WHEN LOWER(category) = 'top' THEN 'TOP'
+    WHEN LOWER(category) = 'western dress' THEN 'WESTERN DRESS'
+    WHEN LOWER(category) = 'ethnic dress' THEN 'ETHNIC DRESS'
+    WHEN LOWER(category) = 'blouse' THEN 'BLOUSE'
+    WHEN LOWER(category) = 'bottom' THEN 'BOTTOM'
+    WHEN LOWER(category) = 'saree' THEN 'SAREE'
+    WHEN LOWER(category) = 'dupatta' THEN 'DUPATTA'
+
+    ELSE category
+END;
+SET SQL_SAFE_UPDATES = 1;
+
+SELECT category,
+    COUNT(*) AS total_orders
+FROM clean_amazon_sales
+GROUP BY category
+ORDER BY total_orders DESC;
+
 -- Validate the Cleaned Dataset
 -- ==========================================
 -- Validate Record Count
