@@ -2,8 +2,7 @@
 Project : Amazon E-Commerce Sales Analysis
 File    : 06_Data_Cleaning.sql
 Author  : Abiodun Oladayo
-Purpose : Create a cleaned version of the staging table
-          for business analysis and Power BI reporting.
+Purpose : Create a cleaned version of the staging table for business analysis and Power BI reporting.
 */
 
 USE amazon_ecommerce_db;
@@ -201,9 +200,10 @@ SET SQL_SAFE_UPDATES = 0;
 
 UPDATE clean_amazon_sales
 SET
-    ship_city = NULLIF(ship_city, ''),
-    ship_state = NULLIF(ship_state, ''),
-    ship_country = NULLIF(ship_country, '');
+    ship_city = NULLIF(TRIM(ship_city), ''),
+    ship_state = NULLIF(TRIM(ship_state), ''),
+    ship_country = NULLIF(TRIM(ship_country), ''),
+	courier_status = NULLIF(TRIM(courier_status), '');
     
 SET SQL_SAFE_UPDATES = 1;
 
